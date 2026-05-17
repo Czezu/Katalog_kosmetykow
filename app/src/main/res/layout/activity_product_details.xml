@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Dopracować wygląd szczegółów, biednie wygląda -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="#FFF9FB">
+
+    <!-- Z  aaokrąglić roigi zdjęcia -->
+    <ImageView
+        android:id="@+id/productImageView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerInside"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="Zdjęcie produktu"/>
+
+    <TextView
+        android:id="@+id/productNameText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:textColor="#4e3b42"
+        android:layout_marginBottom="4dp"/>
+
+    <TextView
+        android:id="@+id/productPriceText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="22sp"
+        android:textColor="#E28AA0"
+        android:layout_marginBottom="4dp"/>
+
+    <!-- Promocja, dopracować, może rogi zaakrąglić? -->
+    <TextView
+        android:id="@+id/productPromoDetailsBadge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Promocja!"
+        android:background="#FFD966"
+        android:textColor="#4e3b42"
+        android:textStyle="bold"
+        android:textSize="13sp"
+        android:padding="6dp"
+        android:layout_marginBottom="12dp"
+        android:visibility="gone" />
+
+    <!-- Może na białym tle zrobić? -->
+    <TextView
+        android:id="@+id/productDescriptionText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="#665259"
+        android:layout_marginBottom="20dp"/>
+
+    <!-- Może emotkę zerduszka daodać Białe jak niepolubione, czerwone jak dodane do ulubionych -->
+    <CheckBox
+        android:id="@+id/favoriteCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dodaj do ulubionych"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Znaleźć emotkę koszyka -->
+    <Button
+        android:id="@+id/addToCartButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Dodaj do koszyka"
+        android:backgroundTint="#C8E6D9"
+        android:textColor="#4e3b42"/>
+
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Zamknij"
+        android:backgroundTint="#F7CAC9"
+        android:textColor="#4e3b42"
+        android:layout_marginTop="8dp"/>
+
+</LinearLayout>

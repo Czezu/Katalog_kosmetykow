@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Kafelki, dodać później zaokrąglenie rogów czy pasować będzie -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    android:padding="10dp"
+    android:layout_margin="6dp"
+    android:elevation="2dp">
+
+    <!-- Miniaturka, tak samo może zaokrąglenie -->
+    <ImageView
+        android:id="@+id/itemProductImage"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:scaleType="centerCrop"
+        android:background="#FFEDF2"/>
+
+    <!-- Nazwa produktu, chyba dobrze wygląda, dodać potem znak koszyka na dole  -->
+    <TextView
+        android:id="@+id/itemProductName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:textColor="#4e3b42"
+        android:layout_marginTop="4dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/itemProductPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#E28AA0"
+            android:textStyle="bold"
+            android:textSize="14sp"/>
+
+        <!-- Znaczek promocji, dopracować wygląd, może dodać emotkę? Do przemyślenia,
+             włączany dynamicznie w kodzie Kotlin tylko dla wybranych produktów -->
+        <TextView
+            android:id="@+id/itemProductPromoBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Promocja!"
+            android:background="#FFD966"
+            android:textSize="10sp"
+            android:paddingHorizontal="4dp"
+            android:layout_marginLeft="6dp"
+            android:visibility="gone"/>
+    </LinearLayout>
+</LinearLayout>
