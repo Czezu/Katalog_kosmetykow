@@ -26,7 +26,6 @@
         <activity android:name=".ProductDetailsActivity" android:exported="false"/>
         <activity android:name=".FavoritesActivity" android:exported="false"/>
         <activity android:name=".CartActivity" android:exported="false"/>
-        <activity android:name=".OrdersActivity" android:exported="false"/>
         <activity android:name=".ProfileActivity" android:exported="false"/>
         <activity android:name=".OrderPreviewActivity" android:exported="false"/>
 
