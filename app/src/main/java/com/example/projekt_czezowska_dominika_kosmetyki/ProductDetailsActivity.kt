@@ -2,11 +2,7 @@ package com.example.projekt_czezowska_dominika_kosmetyki
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 
 class ProductDetailsActivity : AppCompatActivity() {
@@ -15,36 +11,42 @@ class ProductDetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_details)
 
-        val productImageView = findViewById<ImageView>(R.id.productImageView)
-        val productNameText = findViewById<TextView>(R.id.productNameText)
-        val productPriceText = findViewById<TextView>(R.id.productPriceText)
-        val productPromoDetailsBadge = findViewById<TextView>(R.id.productPromoDetailsBadge)
-        val productDescriptionText = findViewById<TextView>(R.id.productDescriptionText)
-        val favoriteCheckBox = findViewById<CheckBox>(R.id.favoriteCheckBox)
-        val addToCartButton = findViewById<Button>(R.id.addToCartButton)
-        val backButton = findViewById<Button>(R.id.backButton)
-
-        val produkt = intent.getSerializableExtra("PRODUCT_DATA") as? Product
-
-        if (produkt != null) {
-            productNameText.text = produkt.name
-            productPriceText.text = "${produkt.price} zł"
-            productDescriptionText.text = produkt.description
-
-            productImageView.setImageResource(produkt.imageResId)
-
-            if (produkt.isPromo) {
-                productPromoDetailsBadge.visibility = View.VISIBLE
-            } else {
-                productPromoDetailsBadge.visibility = View.GONE
-            }
+        val product = intent.getSerializableExtra("PRODUCT_DATA") as? Product
+        if (product == null) {
+            finish()
+            return
         }
 
-        addToCartButton.setOnClickListener {
-            Toast.makeText(this, "Dodano produkt do koszyka! 🛒", Toast.LENGTH_SHORT).show()
+        findViewById<TextView>(R.id.detailName).text = product.name
+        findViewById<TextView>(R.id.detailPrice).text = String.format("%.2f zł", product.price)
+        findViewById<TextView>(R.id.detailDescription).text = product.description
+        findViewById<ImageView>(R.id.detailImage).setImageResource(product.imageResId)
+
+        val specLabel = findViewById<TextView>(R.id.detailSpecLabel)
+        val specValue = findViewById<TextView>(R.id.detailSpecValue)
+
+        if (product.specification.isBlank()) {
+            specLabel.visibility = View.GONE
+            specValue.visibility = View.GONE
+        } else {
+            specLabel.visibility = View.VISIBLE
+            specValue.visibility = View.VISIBLE
+            specValue.text = product.specification
         }
 
-        backButton.setOnClickListener {
+        val favCheckbox = findViewById<CheckBox>(R.id.detailFavCheckbox)
+        favCheckbox.isChecked = FavoritesManager.isFavorite(product.id)
+        favCheckbox.setOnCheckedChangeListener { _, isChecked ->
+            FavoritesManager.toggleFavorite(this, product.id, isChecked)
+        }
+
+        findViewById<Button>(R.id.detailAddToCartBtn).setOnClickListener {
+            val variant = if (product.specification.isNotBlank()) product.specification else "Standard"
+            CartManager.addToCart(this, product.id, 1)
+            Toast.makeText(this, "Dodano do koszyka!", Toast.LENGTH_SHORT).show()
+        }
+
+        findViewById<Button>(R.id.detailCloseBtn).setOnClickListener {
             finish()
         }
     }

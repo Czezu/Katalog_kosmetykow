@@ -1,9 +1,15 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.Projekt_Czezowska_Dominika_kosmetyki" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Główny motyw aplikacji (dopasuj nazwę do swojej aplikacji jeśli trzeba) -->
+    <style name="Theme.Projekt_Czezowska_Dominika_kosmetyki" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Tutaj mogą być Twoje kolory aplikacji -->
     </style>
 
-    <style name="Theme.Projekt_Czezowska_Dominika_kosmetyki" parent="Base.Theme.Projekt_Czezowska_Dominika_kosmetyki" />
+    <!-- Styl zaokrąglenia dla ShapeableImageView -->
+    <style name="RoundedSquare" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerSizeTopLeft">14dp</item>
+        <item name="cornerSizeTopRight">14dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+    </style>
 </resources>

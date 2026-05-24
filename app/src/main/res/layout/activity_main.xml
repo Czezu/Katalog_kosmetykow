@@ -1,159 +1,193 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:background="#FFF0F5">
+    android:background="#FFF9FB">
 
-    <!-- Tytuł -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Katalog kosmetyków"
-        android:textSize="26sp"
-        android:textStyle="bold"
-        android:textColor="#ad7a8a"
-        android:gravity="center"
-        android:layout_marginBottom="16dp"/>
-
-    <!-- Wyszukiwarka, do dopracowania, może przeładowanie na żywo-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="#FEF2F5"
-        android:padding="10dp"
-        android:layout_marginBottom="14dp">
-
-        <EditText
-            android:id="@+id/searchInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Szukaj..."
-            android:background="@android:color/transparent"
-            android:inputType="text"
-            android:textSize="14sp"/>
-    </LinearLayout>
-
-    <!-- Filtry, tak samo jak wyżej, do przemyślenia -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="#FFFAFB"
-        android:padding="12dp"
-        android:layout_marginBottom="14dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Kategoria"
-            android:textSize="13sp"
-            android:textStyle="bold"
-            android:textColor="#996b7a"/>
-
-        <Spinner
-            android:id="@+id/categorySpinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="12dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sortowanie"
-            android:textSize="13sp"
-            android:textStyle="bold"
-            android:textColor="#996b7a"/>
-
-        <RadioGroup
-            android:id="@+id/sortRadioGroup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginVertical="6dp">
-
-            <RadioButton
-                android:id="@+id/radioPriceAsc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Cena ↑"
-                android:textSize="12sp"
-                android:layout_marginRight="8dp"/>
-
-            <RadioButton
-                android:id="@+id/radioPriceDesc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Cena ↓"
-                android:textSize="12sp"
-                android:layout_marginRight="8dp"/>
-
-            <RadioButton
-                android:id="@+id/radioNameAsc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Nazwa A-Z"
-                android:textSize="12sp"/>
-        </RadioGroup>
-
-        <CheckBox
-            android:id="@+id/promoCheckbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tylko promocje"
-            android:textSize="13sp"
-            android:layout_marginBottom="12dp"/>
-
-        <Button
-            android:id="@+id/applyFiltersBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Zastosuj filtry"
-            android:backgroundTint="#C8E6D9"
-            android:textColor="#4e3b42"
-            android:textStyle="bold"/>
-    </LinearLayout>
-
-    <!-- Dopracować, licznik prosuktów i bestsellery -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="8dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Bestsellery"
-            android:background="#FCE4EC"
-            android:paddingHorizontal="12dp"
-            android:paddingVertical="2dp"
-            android:textSize="11sp"
-            android:textStyle="bold"/>
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-
-        <TextView
-            android:id="@+id/productCountText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0 produktów"
-            android:textSize="12sp"/>
-    </LinearLayout>
-
-    <!-- Siatka -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/productsRecyclerView"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="2" />
+        android:layout_above="@id/bottomNavigationView"
+        android:fillViewport="true"
+        android:padding="16dp"
+        android:scrollbars="none">
 
-</LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/appTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Katalog kosmetyków"
+                android:textColor="#AD7A8A"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.02"
+                android:layout_marginBottom="20dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/search_box_bg"
+                android:orientation="horizontal"
+                android:padding="12dp"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="20dp"
+                android:elevation="2dp">
+
+                <EditText
+                    android:id="@+id/searchInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:hint="Szukaj..."
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:textColorHint="#D4A5B3"
+                    android:textColor="#4E3B42"
+                    android:textSize="14sp"
+                    android:inputType="text" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/filter_group_bg"
+                android:orientation="vertical"
+                android:padding="20dp"
+                android:layout_marginBottom="20dp"
+                android:elevation="2dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Kategoria"
+                    android:textColor="#AD7A8A"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="8dp" />
+
+                <Spinner
+                    android:id="@+id/categorySpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:background="@drawable/spinner_bg"
+                    android:layout_marginBottom="16dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sortowanie"
+                    android:textColor="#AD7A8A"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="8dp" />
+
+                <RadioGroup
+                    android:id="@+id/sortRadioGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="16dp">
+
+                    <RadioButton
+                        android:id="@+id/radioPriceAsc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cena ↑"
+                        android:textSize="13sp"
+                        android:buttonTint="#D4A5B3" />
+
+                    <RadioButton
+                        android:id="@+id/radioPriceDesc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cena ↓"
+                        android:textSize="13sp"
+                        android:buttonTint="#D4A5B3" />
+
+                    <RadioButton
+                        android:id="@+id/radioNameAsc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nazwa A-Z"
+                        android:textSize="13sp"
+                        android:buttonTint="#D4A5B3" />
+                </RadioGroup>
+
+                <CheckBox
+                    android:id="@+id/promoCheckbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tylko promocje"
+                    android:textSize="13sp"
+                    android:buttonTint="#D4A5B3"
+                    android:layout_marginBottom="20dp" />
+
+                <Button
+                    android:id="@+id/applyFiltersBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:background="@drawable/btn_mint_bg"
+                    android:text="Zastosuj filtry"
+                    android:textAllCaps="false"
+                    android:textColor="#4E3B42"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-medium"
+                    app:backgroundTint="@null" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bestsellery"
+                    android:background="@drawable/bestseller_badge"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="6dp"
+                    android:textColor="#AD7A8A"
+                    android:textStyle="bold"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/productCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:text="0 produktów"
+                    android:textColor="#D4A5B3"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/productsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="2" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#FFFFFF"
+        app:itemIconTint="@drawable/bottom_nav_color"
+        app:itemTextColor="@drawable/bottom_nav_color"
+        app:menu="@menu/bottom_nav_menu"
+        android:elevation="8dp" />
+
+</RelativeLayout>

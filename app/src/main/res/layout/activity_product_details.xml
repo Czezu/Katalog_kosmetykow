@@ -1,85 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Dopracować wygląd szczegółów, biednie wygląda -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="24dp"
-    android:background="#FFF9FB">
+    android:background="#FFF9FB"
+    android:padding="16dp">
 
-    <!-- Z  aaokrąglić roigi zdjęcia -->
-    <ImageView
-        android:id="@+id/productImageView"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:scaleType="centerInside"
-        android:layout_marginBottom="16dp"
-        android:contentDescription="Zdjęcie produktu"/>
-
-    <TextView
-        android:id="@+id/productNameText"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="26sp"
-        android:textStyle="bold"
-        android:textColor="#4e3b42"
-        android:layout_marginBottom="4dp"/>
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/productPriceText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="22sp"
-        android:textColor="#E28AA0"
-        android:layout_marginBottom="4dp"/>
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:layout_marginBottom="20dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="#FFFFFF">
 
-    <!-- Promocja, dopracować, może rogi zaakrąglić? -->
-    <TextView
-        android:id="@+id/productPromoDetailsBadge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Promocja!"
-        android:background="#FFD966"
-        android:textColor="#4e3b42"
-        android:textStyle="bold"
-        android:textSize="13sp"
-        android:padding="6dp"
-        android:layout_marginBottom="12dp"
-        android:visibility="gone" />
+            <ImageView
+                android:id="@+id/detailImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:background="#FFEDF2" />
+        </androidx.cardview.widget.CardView>
 
-    <!-- Może na białym tle zrobić? -->
-    <TextView
-        android:id="@+id/productDescriptionText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textColor="#665259"
-        android:layout_marginBottom="20dp"/>
+        <TextView
+            android:id="@+id/detailName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#4E3B42"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
 
-    <!-- Może emotkę zerduszka daodać Białe jak niepolubione, czerwone jak dodane do ulubionych -->
-    <CheckBox
-        android:id="@+id/favoriteCheckBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Dodaj do ulubionych"
-        android:layout_marginBottom="16dp"/>
+        <TextView
+            android:id="@+id/detailPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#AD7A8A"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="12dp" />
 
-    <!-- Znaleźć emotkę koszyka -->
-    <Button
-        android:id="@+id/addToCartButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Dodaj do koszyka"
-        android:backgroundTint="#C8E6D9"
-        android:textColor="#4e3b42"/>
+        <TextView
+            android:id="@+id/detailDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Opis przedmiotu"
+            android:textColor="#4E3B42"
+            android:textSize="14sp"
+            android:lineSpacingExtra="4dp"
+            android:layout_marginBottom="20dp" />
 
-    <Button
-        android:id="@+id/backButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Zamknij"
-        android:backgroundTint="#F7CAC9"
-        android:textColor="#4e3b42"
-        android:layout_marginTop="8dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rozmiar"
+            android:textColor="#996B7A"
+            android:textStyle="bold"
+            android:layout_marginBottom="6dp" />
 
-</LinearLayout>
+        <Spinner
+            android:id="@+id/detailVariantSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="@drawable/spinner_bg"
+            android:layout_marginBottom="20dp" />
+
+        <CheckBox
+            android:id="@+id/detailFavCheckbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="  Ulubione"
+            android:button="@drawable/fav_heart_selector"
+            android:textSize="16sp"
+            android:textColor="#4E3B42"
+            android:layout_marginBottom="24dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/detailAddToCartBtn"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/btn_mint_bg"
+                app:backgroundTint="@null"
+                android:text="Dodaj do koszyka"
+                android:textColor="#4E3B42"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/detailCloseBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="52dp"
+                android:background="@drawable/btn_pink_bg"
+                app:backgroundTint="@null"
+                android:text="Zamknij"
+                android:textColor="#4E3B42"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textAllCaps="false"
+                android:paddingHorizontal="20dp" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/detailSpecLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Specyfikacja:"
+            android:textColor="#996B7A"
+            android:textStyle="bold"
+            android:layout_marginBottom="6dp" />
+
+        <TextView
+            android:id="@+id/detailSpecValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:background="@drawable/spinner_bg"
+            android:textColor="#4E3B42"
+            android:textSize="14sp"
+            android:layout_marginBottom="20dp" />
+    </LinearLayout>
+</ScrollView>

@@ -2,95 +2,186 @@ package com.example.projekt_czezowska_dominika_kosmetyki
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.EditText
-import android.widget.RadioGroup
-import android.widget.Spinner
-import android.widget.TextView
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
-    private val pelnaListaProduktow = listOf(
-        Product(
-            id = 1,
-            name = "Mleczko różane",
-            price = 49.99,
-            category = "pielęgnacja",
-            isPromo = true,
-            description = "Delikatne mleczko z ekstraktem z płatków róż. Głęboko nawilża, łagodzi podrażnienia i nadaje skórze zdrowy wygląd.",
-            imageResId = R.drawable.mleczko_rozane
-        ),
-        Product(
-            id = 2,
-            name = "Błyszczyk truskawkowy",
-            price = 39.90,
-            category = "makijaż",
-            isPromo = false,
-            description = "Truskawkowy błyszczyk do ust, który nadaje błyszczące wykończenie bez uczucia lepkości, jednocześnie pielęgnując i chroniąc skórę ust.",
-            imageResId = R.drawable.blyszczyk_truskawkowy
-        )
-    )
+    private lateinit var productsContainer: RecyclerView
+    private lateinit var categorySpinner: Spinner
+    private lateinit var promoCheckbox: CheckBox
+    private lateinit var searchInput: EditText
+    private lateinit var sortRadioGroup: RadioGroup
 
-    private lateinit var adapter: ProductPromo
+    private val categories = Category.values()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val searchInput = findViewById<EditText>(R.id.searchInput)
-        val categorySpinner = findViewById<Spinner>(R.id.categorySpinner)
-        val sortRadioGroup = findViewById<RadioGroup>(R.id.sortRadioGroup)
-        val promoCheckbox = findViewById<CheckBox>(R.id.promoCheckbox)
-        val applyFiltersBtn = findViewById<Button>(R.id.applyFiltersBtn)
-        val productCountText = findViewById<TextView>(R.id.productCountText)
-        val recyclerView = findViewById<RecyclerView>(R.id.productsRecyclerView)
+        FavoritesManager.loadFromFile(this)
 
-        val kategorie = arrayOf("Wszystkie", "pielęgnacja", "makijaż")
-        val spinnerAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, kategorie)
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        categorySpinner.adapter = spinnerAdapter
+        productsContainer = findViewById(R.id.productsContainer)
+        categorySpinner = findViewById(R.id.categorySpinner)
+        promoCheckbox = findViewById(R.id.promoCheckbox)
+        searchInput = findViewById(R.id.searchInput)
+        sortRadioGroup = findViewById(R.id.sortRadioGroup)
 
-        adapter = ProductPromo(pelnaListaProduktow) { wybranyProdukt ->
-            val intent = Intent(this, ProductDetailsActivity::class.java)
-            intent.putExtra("PRODUCT_DATA", wybranyProdukt)
-            startActivity(intent)
+        productsContainer.layoutManager = GridLayoutManager(this, 2)
+
+        val adapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            categories.map { it.displayName }
+        )
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        categorySpinner.adapter = adapter
+
+        searchInput.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) = renderCatalog()
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+
+        findViewById<Button>(R.id.applyFiltersBtn).setOnClickListener {
+            renderCatalog()
         }
-        recyclerView.adapter = adapter
 
-        productCountText.text = "${pelnaListaProduktow.size} produktów"
+        setupBottomNav()
+        renderCatalog()
+    }
 
-        applyFiltersBtn.setOnClickListener {
-            val tekstWyszukiwania = searchInput.text.toString().trim()
-            val wybranaKategoria = categorySpinner.selectedItem.toString()
-            val tylkoPromocje = promoCheckbox.isChecked
-            val zaznaczoneSortowanieId = sortRadioGroup.checkedRadioButtonId
+    override fun onResume() {
+        super.onResume()
+        renderCatalog()
+    }
 
-            var przefiltrowanaLista = pelnaListaProduktow.filter { produkt ->
-                val pasujeDoSzukaj = produkt.name.contains(tekstWyszukiwania, ignoreCase = true) ||
-                        produkt.description.contains(tekstWyszukiwania, ignoreCase = true)
+    private fun setupBottomNav() {
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
 
-                val pasujeDoKategorii = wybranaKategoria == "Wszystkie" ||
-                        produkt.category.equals(wybranaKategoria, ignoreCase = true)
+        bottomNav.selectedItemId = R.id.nav_catalog
 
-                val pasujeDoPromocji = !tylkoPromocje || produkt.isPromo
+        bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
 
-                pasujeDoSzukaj && pasujeDoKategorii && pasujeDoPromocji
+                R.id.nav_catalog -> true
+
+                R.id.nav_favorites -> {
+                    startActivity(Intent(this, FavoritesActivity::class.java))
+                    finish()
+                    true
+                }
+
+                R.id.nav_cart -> {
+                    startActivity(Intent(this, CartActivity::class.java))
+                    finish()
+                    true
+                }
+
+                R.id.nav_profile -> {
+                    startActivity(Intent(this, ProfileActivity::class.java))
+                    finish()
+                    true
+                }
+
+                else -> false
+            }
+        }
+    }
+
+    private fun renderCatalog() {
+        var list = ProductRepository.list
+
+        val selectedCategory = categories[categorySpinner.selectedItemPosition]
+        if (selectedCategory != Category.ALL) {
+            list = list.filter { it.category == selectedCategory }
+        }
+
+        if (promoCheckbox.isChecked) {
+            list = list.filter { it.isPromo }
+        }
+
+        val query = searchInput.text.toString().trim().lowercase()
+        if (query.isNotEmpty()) {
+            list = list.filter { it.name.lowercase().contains(query) }
+        }
+
+        list = when (sortRadioGroup.checkedRadioButtonId) {
+            R.id.radioPriceAsc -> list.sortedBy { it.price }
+            R.id.radioPriceDesc -> list.sortedByDescending { it.price }
+            R.id.radioNameAsc -> list.sortedBy { it.name }
+            else -> list
+        }
+
+        findViewById<TextView>(R.id.productCount).text = "${list.size} produktów"
+        productsContainer.adapter = ProductAdapter(list)
+    }
+
+    inner class ProductAdapter(private val list: List<Product>) :
+        RecyclerView.Adapter<ProductAdapter.VH>() {
+
+        inner class VH(view: View) : RecyclerView.ViewHolder(view)
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
+            val view = LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_product_card, parent, false)
+            return VH(view)
+        }
+
+        override fun getItemCount() = list.size
+
+        override fun onBindViewHolder(holder: VH, position: Int) {
+
+            val product = list[position]
+            val view = holder.itemView
+
+            val name = view.findViewById<TextView>(R.id.productName)
+            val price = view.findViewById<TextView>(R.id.productPrice)
+            val img = view.findViewById<ImageView>(R.id.productImg)
+            val badge = view.findViewById<TextView>(R.id.productPromoBadge)
+            val fav = view.findViewById<CheckBox>(R.id.favCheckbox)
+            val cartBtn = view.findViewById<Button>(R.id.addCartBtnFast)
+
+            name.text = product.name
+            price.text = "${product.price} zł"
+            img.setImageResource(product.imageResId)
+
+            badge.visibility = if (product.isPromo) View.VISIBLE else View.GONE
+
+            fav.setOnCheckedChangeListener(null)
+            fav.isChecked = FavoritesManager.isFavorite(product.id)
+
+            fav.setOnCheckedChangeListener { _, isChecked ->
+                FavoritesManager.toggleFavorite(this@MainActivity, product.id, isChecked)
+                Toast.makeText(
+                    this@MainActivity,
+                    if (isChecked) "Dodano do ulubionych" else "Usunięto",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
 
-            przefiltrowanaLista = when (zaznaczoneSortowanieId) {
-                R.id.radioPriceAsc -> przefiltrowanaLista.sortedBy { it.price }
-                R.id.radioPriceDesc -> przefiltrowanaLista.sortedByDescending { it.price }
-                R.id.radioNameAsc -> przefiltrowanaLista.sortedBy { it.name }
-                else -> przefiltrowanaLista
+            cartBtn.setOnClickListener {
+                CartManager.addToCart(this@MainActivity, product.id, 1)
+                Toast.makeText(
+                    this@MainActivity,
+                    "Dodano do koszyka",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
 
-            adapter.updateData(przefiltrowanaLista)
-
-            productCountText.text = "${przefiltrowanaLista.size} produktów"
+            view.setOnClickListener {
+                val intent = Intent(this@MainActivity, ProductDetailsActivity::class.java)
+                intent.putExtra("PRODUCT_DATA", product)
+                startActivity(intent)
+            }
         }
     }
 }
