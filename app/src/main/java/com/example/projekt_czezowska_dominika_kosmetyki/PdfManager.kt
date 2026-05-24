@@ -23,7 +23,6 @@ object PdfManager {
 
             var y = 40
 
-            // HEADER
             paint.textSize = 18f
             paint.isFakeBoldText = true
             canvas.drawText("PARAGON", 40f, y.toFloat(), paint)
