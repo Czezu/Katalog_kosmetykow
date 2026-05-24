@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFF9FB">
+
+    <TextView
+        android:id="@+id/cartTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="Koszyk"
+        android:textColor="#AD7A8A"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.02"
+        android:elevation="2dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/cartRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/cartTitle"
+        android:layout_above="@id/cartSummaryBox"
+        android:padding="16dp"
+        android:clipToPadding="false"
+        android:scrollbars="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+    <TextView
+        android:id="@+id/noCartMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cartTitle"
+        android:layout_above="@id/cartSummaryBox"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:paddingVertical="60dp"
+        android:text="Koszyk jest pusty"
+        android:textColor="#D4A5B3"
+        android:textSize="16sp"
+        android:fontFamily="sans-serif-medium"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/cartSummaryBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/bottomNavigationViewCart"
+        android:background="@drawable/cart_summary_bg"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:elevation="4dp">
+
+        <TextView
+            android:id="@+id/cartTotal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:gravity="end"
+            android:text="Razem: 0.00 zł"
+            android:textColor="#4E3B42"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/buyNowBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/btn_mint_bg"
+            android:text="Kup teraz"
+            android:textAllCaps="false"
+            android:textColor="#4E3B42"
+            android:textStyle="bold"
+            app:backgroundTint="@null" />
+
+        <Button
+            android:id="@+id/pdfBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/btn_mint_bg"
+            android:text="Pobierz paragon"
+            android:textAllCaps="false"
+            android:textColor="#4E3B42"
+            android:textStyle="bold"
+            app:backgroundTint="@null" />
+
+        <Button
+            android:id="@+id/clearCartBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_pink_bg"
+            android:text="Wyczyść koszyk"
+            android:textAllCaps="false"
+            android:textColor="#4E3B42"
+            android:textStyle="bold"
+            app:backgroundTint="@null" />
+    </LinearLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationViewCart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#FFFFFF"
+        android:elevation="8dp"
+        app:itemIconTint="#CC9AA5"
+        app:itemTextColor="#CC9AA5"
+        app:menu="@menu/bottom_nav_menu" />
+
+</RelativeLayout>

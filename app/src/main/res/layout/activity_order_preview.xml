@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="24dp"
+    app:cardCornerRadius="24dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="#FFFFFF">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:background="#FFFFFF">
+
+        <TextView
+            android:id="@+id/orderContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Szczegóły zamówienia..."
+            android:textColor="#4E3B42"
+            android:textSize="15sp"
+            android:lineSpacingExtra="4dp" />
+
+    </ScrollView>
+</androidx.cardview.widget.CardView>
